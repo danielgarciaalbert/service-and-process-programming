@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="healthymenu.views.main.Controller">
+  <items>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+         <children>
+            <TableView fx:id="tableFood" layoutX="157.0" layoutY="-47.0" prefHeight="196.0" prefWidth="598.4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <columns>
+                <TableColumn fx:id="colFoodName" prefWidth="239.2000030875206" text="Food name" />
+                <TableColumn fx:id="colFoodCategory" prefWidth="191.1999969482422" text="Food category" />
+                  <TableColumn fx:id="colFoodWeightG" prefWidth="81.79998779296875" text="Weight (g)" />
+                  <TableColumn fx:id="colFoodWeightOz" prefWidth="83.99997558593748" text="Wight (oz)" />
+              </columns>
+            </TableView>
+         </children></AnchorPane>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+         <children>
+            <HBox layoutX="118.0" layoutY="29.0" spacing="20.0">
+               <children>
+                  <Label maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefHeight="16.0" prefWidth="107.0" text="Food name:">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </Label>
+                  <TextField fx:id="txtFoodName" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                  <Button fx:id="btnAdd" mnemonicParsing="false" onAction="#addFood" prefHeight="26.0" prefWidth="123.0" text="Add" />
+               </children>
+            </HBox>
+            <HBox layoutX="118.0" layoutY="76.0" spacing="20.0">
+               <children>
+                  <Label minWidth="-Infinity" prefHeight="16.0" prefWidth="107.0" text="Food category:">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </Label>
+                  <ComboBox fx:id="comboFoodCategory" prefWidth="150.0" />
+               </children>
+            </HBox>
+            <HBox layoutX="115.0" layoutY="125.0" spacing="20.0">
+               <children>
+                  <Label minWidth="-Infinity" prefHeight="16.0" prefWidth="107.0" text="Food weight:">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </Label>
+                  <TextField fx:id="txtFoodWeight" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
+         </children></AnchorPane>
+  </items>
+</SplitPane>
