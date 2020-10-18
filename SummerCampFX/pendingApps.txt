@@ -1,0 +1,17 @@
+Juan;Pérez Gómez;15/09/2005;Dance;7;2
+Elisa;Ramírez Juan;15/02/2004;Music;8;4
+Fernando;Pérez Gómez;15/12/2004;Music;7;2
+Antonio;Barbosa Leal;15/11/2004;Music;8;4
+Marta;Jimenez Poveda;15/10/2004;Dance;7;2
+Rocío;Sepúlveda Arroyo;15/09/2004;Dance;7;2
+Miguel;Lozano Ruiz;15/06/2004;Music;8;4
+Ignacio;Zamora García;15/05/2004;Music;8;4
+Marcos;Rubio Ruiz;20/08/2004;Math;8;4
+Marcos;Rubio Rico;13/08/2004;Math;8;4
+Rodrigo;Rodríguez Ramírez;18/04/2007;Theater;8;2
+Rodrigo2;Rodrígue2z2 Ramírez2;18/04/2005;Theater;8;2
+María;Antón Rodero;09/08/2012;Dance;5;2
+Teresa;Andreu Casals;01/08/2005;Dance;7;2
+1;1 1;01/08/2005;Prueba;1;1
+2;2 2;01/08/2005;Prueba;1;1
+3;3 3;01/08/2006;Music;8;4

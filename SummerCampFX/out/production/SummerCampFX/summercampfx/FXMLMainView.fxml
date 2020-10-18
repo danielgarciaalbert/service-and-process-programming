@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="summercampfx.FXMLMainViewController">
+   <children>
+      <SplitPane dividerPositions="0.12311557788944724" layoutX="212.0" layoutY="64.0" orientation="VERTICAL" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <Label layoutX="147.0" layoutY="20.0" text="Summer courses applications: enrolment process">
+                     <font>
+                        <Font name="System Bold" size="22.0" />
+                     </font>
+                  </Label>
+               </children></AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <HBox layoutX="220.0" layoutY="186.0" prefHeight="521.6" prefWidth="798.4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <VBox prefHeight="522.0" prefWidth="434.0">
+                           <children>
+                              <HBox prefHeight="53.0" prefWidth="359.0">
+                                 <children>
+                                    <VBox prefHeight="100.0" prefWidth="309.0">
+                                       <children>
+                                          <Label contentDisplay="CENTER" text="Course" textAlignment="CENTER">
+                                             <font>
+                                                <Font name="System Bold" size="14.0" />
+                                             </font></Label>
+                                          <ComboBox fx:id="comboCourses" onAction="#addFilters" prefHeight="26.0" prefWidth="285.0" />
+                                       </children></VBox>
+                                    <VBox layoutX="10.0" layoutY="10.0" prefHeight="50.0" prefWidth="126.0">
+                                       <children>
+                                          <Label contentDisplay="CENTER" text="Age" textAlignment="CENTER">
+                                             <font>
+                                                <Font name="System Bold" size="14.0" />
+                                             </font></Label>
+                                          <ComboBox fx:id="comboAges" onAction="#addFilters" prefHeight="25.0" prefWidth="126.0" />
+                                       </children>
+                                    </VBox>
+                                 </children></HBox>
+                              <TableView fx:id="tableStudentsLeft" prefHeight="377.0" prefWidth="434.0">
+                                <columns>
+                                  <TableColumn fx:id="colName" prefWidth="130.7999786734581" text="Name">
+                                       <graphic>
+                                          <Button fx:id="btnTableName" mnemonicParsing="false" prefHeight="25.0" prefWidth="128.0" text="NAME" />
+                                       </graphic></TableColumn>
+                                  <TableColumn fx:id="colSurname" prefWidth="164.0" text="Surnames">
+                                       <graphic>
+                                          <Button fx:id="btnTableSurname" mnemonicParsing="false" prefHeight="25.0" prefWidth="160.0" text="SURNAMES" />
+                                       </graphic></TableColumn>
+                                    <TableColumn fx:id="colBirthDate" prefWidth="141.0" text="Birth Date">
+                                       <graphic>
+                                          <Button fx:id="btnTableBirthDate" mnemonicParsing="false" prefHeight="25.0" prefWidth="125.0" text="BIRTH DATE" />
+                                       </graphic></TableColumn>
+                                </columns>
+                              </TableView>
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                 <children>
+                                    <Button fx:id="btnNewCourse" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="106.0" text="New Course" textAlignment="CENTER">
+                                       <HBox.margin>
+                                          <Insets right="40.0" />
+                                       </HBox.margin></Button>
+                                    <Button fx:id="btnNewApp" contentDisplay="CENTER" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="New Application" textAlignment="CENTER" />
+                                 </children>
+                              </HBox>
+                           </children>
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin></VBox>
+                        <VBox prefHeight="522.0" prefWidth="145.0">
+                           <children>
+                              <Label alignment="CENTER" prefHeight="18.0" prefWidth="146.0" text="Full cabins" textAlignment="CENTER">
+                                 <VBox.margin>
+                                    <Insets top="56.0" />
+                                 </VBox.margin>
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font></Label>
+                              <ListView fx:id="lstFullCabins" prefHeight="165.0" prefWidth="146.0">
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                              </ListView>
+                              <Button fx:id="btnFillCabin" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="8.0" prefWidth="84.0" text="Fill Cabin &gt;&gt;">
+                                 <VBox.margin>
+                                    <Insets left="30.0" top="20.0" />
+                                 </VBox.margin></Button>
+                           </children></VBox>
+                        <VBox alignment="TOP_CENTER" prefHeight="522.0" prefWidth="215.0">
+                           <children>
+                              <Label contentDisplay="CENTER" text="Cabin situation" textAlignment="CENTER">
+                                 <font>
+                                    <Font name="System Bold" size="14.0" />
+                                 </font></Label>
+                              <TextField fx:id="txtFieldCabinSituation" />
+                              <TableView fx:id="tableStudentsRight" prefHeight="373.0" prefWidth="215.0">
+                                <columns>
+                                  <TableColumn prefWidth="104.0" text="Name" />
+                                  <TableColumn prefWidth="108.0" text="Surnames" />
+                                </columns>
+                                 <VBox.margin>
+                                    <Insets top="7.0" />
+                                 </VBox.margin>
+                              </TableView>
+                              <Button fx:id="btnSaveCabin" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" text="Save Cabin">
+                                 <VBox.margin>
+                                    <Insets top="35.0" />
+                                 </VBox.margin></Button>
+                           </children>
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin></VBox>
+                     </children>
+                  </HBox>
+               </children></AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>
