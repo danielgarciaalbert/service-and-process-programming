@@ -1,9 +1,6 @@
 Dance;7;2
-Dance;7;4
-Music;8;4
-Math;8;2
-Math;7;4
-Theater;6;1
+Dance;5;2
+music;7;2
 Theater;8;2
 Math;8;4
-Prueba;1;1
+music;7;2

@@ -21,10 +21,10 @@ public class PendingApp {
         return name;
     }
 
-    public String getAge() {
+    public Integer getAge() {
         int aDate = birthdate.getYear();
         int now = LocalDate.now().getYear();
-        return now - aDate + "";
+        return now - aDate;
     }
 
     public void setName(String name) {
@@ -58,5 +58,10 @@ public class PendingApp {
     @Override
     public String toString() {
         return name + ";" + surnames + ";" + birthdate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+    }
+
+    public String toStringWithCourse() {
+        return name + ";" + surnames + ";" + birthdate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+                + ";" + course.toStringWithSemicolon();
     }
 }

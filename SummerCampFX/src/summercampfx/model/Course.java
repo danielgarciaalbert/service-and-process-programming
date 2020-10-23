@@ -37,36 +37,25 @@ public class Course {
         this.weeksDuration = weeksDuration;
     }
 
-    /*
-    @Override
-    public boolean equals(Object o) {
-        boolean equals = false;
-        if (this.name.equals(((Course) o).name) &&
-                this.month == ((Course) o).month &&
-                this.weeksDuration == ((Course) o).weeksDuration) {
-            equals = true;
-        }
-
-        return equals;
-    }
-     */
-
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
         if (obj == null)
             return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Course other = (Course) obj;
-        if (name.equals(other.name) && month.equals(other.month) && weeksDuration == other.weeksDuration)
+
+        if (name.toUpperCase().equals(((Course) obj).name.toUpperCase())
+                && month.equals(((Course) obj).month) && weeksDuration == ((Course) obj).weeksDuration)
             return true;
-        return false;
+        else
+            return false;
     }
 
     @Override
     public String toString() {
         return name + " " + month + " Duration: " + weeksDuration + " weeks";
+    }
+
+    public String toStringWithSemicolon() {
+        int monthLikeInteger = month.ordinal() + 1;
+        return name + ";" + monthLikeInteger + ";" + weeksDuration;
     }
 }

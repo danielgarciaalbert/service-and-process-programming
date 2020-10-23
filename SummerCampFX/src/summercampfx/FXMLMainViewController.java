@@ -1,23 +1,26 @@
 package summercampfx;
 
-import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import summercampfx.model.Course;
 import summercampfx.model.PendingApp;
 import summercampfx.utils.FileUtils;
+import summercampfx.utils.MessageUtils;
+import summercampfx.utils.SceneLoader;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class FXMLMainViewController implements Initializable {
     @FXML
@@ -26,6 +29,12 @@ public class FXMLMainViewController implements Initializable {
     public TableColumn<PendingApp, String> colSurname;
     @FXML
     public TableColumn<PendingApp, LocalDate> colBirthDate;
+    @FXML
+    public TableColumn<PendingApp, String> colNameRight;
+    @FXML
+    public TableColumn<PendingApp, String> colSurnamesRight;
+    @FXML
+    public Button btnChart;
     @FXML
     private ComboBox comboCourses;
     @FXML
@@ -49,21 +58,28 @@ public class FXMLMainViewController implements Initializable {
     @FXML
     private TextField txtFieldCabinSituation;
     @FXML
-    private TableView tableStudentsRight;
+    private TableView<PendingApp> tableStudentsRight;
     @FXML
     private Button btnSaveCabin;
+    private boolean sortingAscendent = true;
 
     List<Course> courses;
     List<PendingApp> pendingApps;
-    List<PendingApp> pendingAppsWithFilters;
+    List<String> cabins;
+    List<PendingApp> finalList;
+    List<PendingApp> rightTable;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         courses = FileUtils.loadCourses();
         pendingApps = FileUtils.loadApps();
+        cabins = FileUtils.loadCabins();
         FillCoursesCombo();
         FillLeftTable(pendingApps);
+        FillCabinsListView();
         loadAges(comboAges);
+        rightTable = new ArrayList<>();
+        finalList = new ArrayList<>();
     }
 
     private void loadAges(ComboBox comboBox) {
@@ -71,6 +87,12 @@ public class FXMLMainViewController implements Initializable {
             comboBox.getItems().addAll(i);
         }
     }
+
+    private void FillCabinsListView() {
+        if (cabins.size() > 0)
+            lstFullCabins.setItems(FXCollections.observableArrayList(cabins));
+    }
+
 
     private void FillCoursesCombo() {
         comboCourses.setItems(FXCollections.observableArrayList(courses));
@@ -83,75 +105,138 @@ public class FXMLMainViewController implements Initializable {
         tableStudentsLeft.setItems(FXCollections.observableArrayList(pendingApps));
     }
 
-    /*
-    public void addCourseFilter(ActionEvent actionEvent) {
-        List<PendingApp> finalList = new ArrayList<>();
-
-        try {
-            if (comboAges.getSelectionModel().getSelectedItem() == null) {
-                finalList = pendingApps.stream()
-                    .filter(pa -> pa.getCourse().equals(comboCourses.getSelectionModel().getSelectedItem()))
-                    .collect(Collectors.toList());
-            } else {
-                finalList = pendingApps.stream()
-                    .filter(pa -> pa.getCourse().equals(comboCourses.getSelectionModel().getSelectedItem())
-                            && pa.getAge().equals(comboAges.getSelectionModel().getSelectedItem().toString()))
-                    .collect(Collectors.toList());
-            }
-
-        } catch (Exception e) {
-
-        }
-
-        FillLeftTable(finalList);
-    }
-
-    public void addAgeFilter(ActionEvent actionEvent) {
-        List<PendingApp> finalList = new ArrayList<>();
-
-        try {
-            if (comboCourses.getSelectionModel().getSelectedItem() == null) {
-                finalList = pendingApps.stream()
-                    .filter(pa -> pa.getAge().equals(comboAges.getSelectionModel().getSelectedItem().toString()))
-                    .collect(Collectors.toList());
-            } else {
-                finalList = pendingApps.stream()
-                    .filter(pa -> pa.getCourse().equals(comboCourses.getSelectionModel().getSelectedItem())
-                        && pa.getAge().equals(comboAges.getSelectionModel().getSelectedItem().toString()))
-                    .collect(Collectors.toList());
-            }
-
-        } catch (Exception e) {
-
-        }
-
-        FillLeftTable(finalList);
-    }
-    */
-
     public void addFilters(ActionEvent actionEvent) {
-        List<PendingApp> finalList = new ArrayList<>();
+        finalList = new ArrayList<>();
 
         try {
-            if (comboCourses.getSelectionModel().getSelectedItem() == null) {
+            if (comboCourses.getValue() == null) {
                 finalList = pendingApps.stream()
-                        .filter(pa -> pa.getAge().equals(comboAges.getSelectionModel().getSelectedItem().toString()))
+                        .filter(pa -> pa.getAge() == comboAges.getSelectionModel().getSelectedItem())
                         .collect(Collectors.toList());
-            } else if (comboAges.getSelectionModel().getSelectedItem() == null) {
+            } else if (comboAges.getValue() == null) {
                 finalList = pendingApps.stream()
                         .filter(pa -> pa.getCourse().equals(comboCourses.getSelectionModel().getSelectedItem()))
                         .collect(Collectors.toList());
             } else {
                 finalList = pendingApps.stream()
                         .filter(pa -> pa.getCourse().equals(comboCourses.getSelectionModel().getSelectedItem())
-                                && pa.getAge().equals(comboAges.getSelectionModel().getSelectedItem().toString()))
+                                && pa.getAge() == comboAges.getSelectionModel().getSelectedItem())
                         .collect(Collectors.toList());
             }
 
         } catch (Exception e) {
-            System.out.println("Error adding a filter");
+            MessageUtils.showError("Adding Filters Error", "An error has ocurred adding filters");
         }
 
         FillLeftTable(finalList);
+    }
+
+    public void addApplication(ActionEvent actionEvent) throws IOException {
+        SceneLoader.loadScene("/summercampfx/FXMLNewApplicationView.fxml",
+                (Stage) ((Node) actionEvent.getSource()).getScene().getWindow());
+    }
+
+    public void addCourse(ActionEvent actionEvent) throws IOException {
+        SceneLoader.loadScene("/summercampfx/FXMLNewCourseView.fxml",
+                (Stage) ((Node) actionEvent.getSource()).getScene().getWindow());
+    }
+
+    public void orderByName(ActionEvent actionEvent) {
+        if (finalList.size() > 0) {
+            if (sortingAscendent) {
+                sortingAscendent = false;
+                finalList.sort(Comparator.comparing(PendingApp::getName));
+            } else {
+                sortingAscendent = true;
+                finalList.sort(Comparator.comparing(PendingApp::getName).reversed());
+            }
+            FillLeftTable(finalList);
+        }
+    }
+
+    public void orderBySurnames(ActionEvent actionEvent) {
+        if (finalList.size() > 0) {
+            if (sortingAscendent) {
+                sortingAscendent = false;
+                finalList.sort(Comparator.comparing(PendingApp::getSurnames)
+                        .thenComparing(PendingApp::getName));
+            } else {
+                sortingAscendent = true;
+                finalList.sort(Comparator.comparing(PendingApp::getSurnames)
+                        .thenComparing(PendingApp::getName).reversed());
+            }
+            FillLeftTable(finalList);
+        }
+    }
+
+    public void orderByBirthdate(ActionEvent actionEvent) {
+        if (finalList.size() > 0) {
+            if (sortingAscendent) {
+                sortingAscendent = false;
+                finalList.sort(Comparator.comparing(PendingApp::getBirthdate));
+            } else {
+                sortingAscendent = true;
+                finalList.sort(Comparator.comparing(PendingApp::getBirthdate).reversed());
+            }
+            FillLeftTable(finalList);
+        }
+    }
+
+    public void fillCabin(ActionEvent actionEvent) {
+        colNameRight.setCellValueFactory(new PropertyValueFactory("name"));
+        colSurnamesRight.setCellValueFactory(new PropertyValueFactory("surnames"));
+
+        if (comboCourses.getValue() == null || comboAges.getValue() == null) {
+            MessageUtils.showError("Fill Cabin Error",
+                    "COURSE and AGE must have value");
+        } else {
+            if (tableStudentsRight.getItems().size() == 0) {
+                if (tableStudentsLeft.getItems().size() > 10) {
+                    for (int i = 0; i < 10; i++) {
+                        rightTable.add(finalList.get(i));
+                    }
+                    tableStudentsRight.setItems(FXCollections.observableArrayList(rightTable));
+                } else if (tableStudentsLeft.getItems().size() > 0){
+                    rightTable.addAll(finalList);
+                    tableStudentsRight.setItems(FXCollections.observableArrayList(rightTable));
+                } else if (tableStudentsLeft.getItems().size() <= 0) {
+                    MessageUtils.showError("Fill Cabin Error", "There is no apps in the table");
+                }
+            } else {
+                MessageUtils.showError("Fill Cabin Error", "The right table already has data");
+            }
+        }
+    }
+
+    public void saveCabin(ActionEvent actionEvent) {
+        if (txtFieldCabinSituation.getText().equals("")) {
+            MessageUtils.showError("Cabin Ubication Error", "Cabin ubication can't be empty");
+        } else if (tableStudentsRight.getItems().size() <= 0) {
+            MessageUtils.showError("Save Cabin Error", "Right table is empty");
+        } else {
+            FileUtils.saveCabin("./cabins/" + txtFieldCabinSituation.getText() + ".txt", rightTable);
+            pendingApps.removeAll(rightTable);
+            rightTable.clear();
+            FileUtils.saveApps(pendingApps);
+            cabins = FileUtils.loadCabins();
+            FillCabinsListView();
+            txtFieldCabinSituation.setText("");
+            tableStudentsRight.getItems().clear();
+            comboCourses.getSelectionModel().clearSelection();
+            comboAges.getSelectionModel().clearSelection();
+            FillLeftTable(pendingApps);
+        }
+    }
+
+    public void showChart(ActionEvent actionEvent) throws IOException {
+        SceneLoader.loadScene("/summercampfx/FXMLChartView.fxml",
+                (Stage) ((Node) actionEvent.getSource()).getScene().getWindow());
+    }
+
+    public List<Course> getCourses() {
+        return courses;
+    }
+    public List<PendingApp> getPendingApps() {
+        return pendingApps;
     }
 }

@@ -1,15 +1,9 @@
 package summercampfx.utils;
 
-import javafx.collections.FXCollections;
-import javafx.scene.control.ComboBox;
-import summercampfx.FXMLMainViewController;
 import summercampfx.model.Course;
 import summercampfx.model.PendingApp;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDate;
@@ -35,7 +29,42 @@ public class FileUtils {
                                     Integer.parseInt(line.split(";")[5]))))
                     .collect(Collectors.toList());
         } catch (Exception e) {
-            return null;
+            return new ArrayList<PendingApp>();
+        }
+    }
+
+    public static void saveApps(List<PendingApp> newPendingApps) {
+        PrintWriter output = null;
+        try {
+            output = new PrintWriter(new BufferedWriter(
+                    new FileWriter("pendingApps.txt", false)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        for (int i = 0; i < newPendingApps.size(); i++) {
+            output.println(newPendingApps.get(i).toStringWithCourse());
+        }
+        output.close();
+    }
+    public static void saveApp(String application) {
+        try {
+            //Files.write(Paths.get("pendingApps.txt"), application.getBytes(), StandardOpenOption.APPEND);
+
+            /*
+            BufferedWriter outputFile = new BufferedWriter(
+                    new FileWriter(new File("pendingApps.txt")));
+            outputFile.newLine();
+            outputFile.write(application);
+            outputFile.close();
+            */
+
+            PrintWriter output = new PrintWriter(new BufferedWriter(
+                    new FileWriter("pendingApps.txt", true)));
+            output.println(application);
+            output.close();
+
+        }catch (IOException e) {
+            MessageUtils.showError("Save app error", "");
         }
     }
 
@@ -43,7 +72,7 @@ public class FileUtils {
         List<Course> courses = new ArrayList<>() ;
         try {
             BufferedReader inputFile = new BufferedReader(
-                    new FileReader(new File("courses.txt")));
+                    new FileReader((new File("courses.txt"))));
             String line;
 
             do {
@@ -64,9 +93,49 @@ public class FileUtils {
         return courses;
     }
 
-    public static void saveApps() {}
-    public static void saveApp() {}
-    public static void saveCourse() {}
-    public static void saveCabin() {}
 
+
+    public static void saveCourse(String course) throws IOException {
+        try {
+            PrintWriter output = new PrintWriter(new BufferedWriter(
+                    new FileWriter("courses.txt", true)));
+            output.println(course);
+            output.close();
+
+        } catch (IOException e) {
+            MessageUtils.showError("Save app error", "");
+        }
+    }
+
+    public static void saveCabin(String fileName, List<PendingApp> pendingApps) {
+        try {
+            FileWriter myWriter = new FileWriter(fileName);
+            for (int i = 0; i < pendingApps.size(); i++) {
+                myWriter.write(String.valueOf(pendingApps.get(i)) + "\n");
+            }
+            myWriter.close();
+        } catch (IOException e) {
+            //e.printStackTrace();
+        }
+    }
+
+    public static List<String> loadCabins() {
+        List<String> cabins = new ArrayList<>();
+        try {
+            File folder = new File("./cabins");
+            File[] listOfFiles = folder.listFiles();
+
+            for (File file : listOfFiles) {
+                if (file.isFile()) {
+                    cabins.add(file.getName());
+                }
+            }
+        } catch (NullPointerException f) {
+            System.out.println("MIERDA");
+        } catch (Exception e) {
+            System.out.println("MAS MIERDA AUN SI CABE");
+        }
+
+        return cabins;
+    }
 }
