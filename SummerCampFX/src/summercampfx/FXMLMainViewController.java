@@ -22,6 +22,10 @@ import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * FXMLMainViewController is the class in charge of controlling the main view
+ * @author Daniel García
+ */
 public class FXMLMainViewController implements Initializable {
     @FXML
     public TableColumn<PendingApp, String> colName;
@@ -69,6 +73,12 @@ public class FXMLMainViewController implements Initializable {
     List<PendingApp> finalList;
     List<PendingApp> rightTable;
 
+    /**
+     * The initialize method will be called every time the class is created.
+     * It's useful for instantiate the lists and call the methods that have to be called at the beginning
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         courses = FileUtils.loadCourses();
@@ -79,7 +89,7 @@ public class FXMLMainViewController implements Initializable {
         FillCabinsListView();
         loadAges(comboAges);
         rightTable = new ArrayList<>();
-        finalList = new ArrayList<>();
+        finalList = pendingApps;
     }
 
     private void loadAges(ComboBox comboBox) {
@@ -105,6 +115,11 @@ public class FXMLMainViewController implements Initializable {
         tableStudentsLeft.setItems(FXCollections.observableArrayList(pendingApps));
     }
 
+    /**
+     * This method is used to add filters using the combo box "Courses" and "Ages". Once we have chosen one of each,
+     * the applications that meet this filters will appear in the table
+     * @param actionEvent
+     */
     public void addFilters(ActionEvent actionEvent) {
         finalList = new ArrayList<>();
 
@@ -131,16 +146,31 @@ public class FXMLMainViewController implements Initializable {
         FillLeftTable(finalList);
     }
 
+    /**
+     * This method is used to launch the application create view
+     * @param actionEvent
+     * @throws IOException
+     */
     public void addApplication(ActionEvent actionEvent) throws IOException {
         SceneLoader.loadScene("/summercampfx/FXMLNewApplicationView.fxml",
                 (Stage) ((Node) actionEvent.getSource()).getScene().getWindow());
     }
 
+    /**
+     * This method is used to launch the course create view
+     * @param actionEvent
+     * @throws IOException
+     */
     public void addCourse(ActionEvent actionEvent) throws IOException {
         SceneLoader.loadScene("/summercampfx/FXMLNewCourseView.fxml",
                 (Stage) ((Node) actionEvent.getSource()).getScene().getWindow());
     }
 
+    /**
+     * This method is used to order the table (and the list) by name
+     * @param actionEvent
+     * @throws IOException
+     */
     public void orderByName(ActionEvent actionEvent) {
         if (finalList.size() > 0) {
             if (sortingAscendent) {
@@ -154,6 +184,11 @@ public class FXMLMainViewController implements Initializable {
         }
     }
 
+    /**
+     * This method is used to order the table (and the list) by surnames and name
+     * @param actionEvent
+     * @throws IOException
+     */
     public void orderBySurnames(ActionEvent actionEvent) {
         if (finalList.size() > 0) {
             if (sortingAscendent) {
@@ -169,6 +204,11 @@ public class FXMLMainViewController implements Initializable {
         }
     }
 
+    /**
+     * This method is used to order the table (and the list) by birhtdate
+     * @param actionEvent
+     * @throws IOException
+     */
     public void orderByBirthdate(ActionEvent actionEvent) {
         if (finalList.size() > 0) {
             if (sortingAscendent) {
@@ -182,6 +222,10 @@ public class FXMLMainViewController implements Initializable {
         }
     }
 
+    /**
+     * This method extract (up to 10) apps of the left table, and place them on the right table
+     * @param actionEvent
+     */
     public void fillCabin(ActionEvent actionEvent) {
         colNameRight.setCellValueFactory(new PropertyValueFactory("name"));
         colSurnamesRight.setCellValueFactory(new PropertyValueFactory("surnames"));
@@ -208,6 +252,11 @@ public class FXMLMainViewController implements Initializable {
         }
     }
 
+    /**
+     * This method save the apps that are in the right table (if there is a name for the cabin) and delete these apps
+     * from the left table
+     * @param actionEvent
+     */
     public void saveCabin(ActionEvent actionEvent) {
         if (txtFieldCabinSituation.getText().equals("")) {
             MessageUtils.showError("Cabin Ubication Error", "Cabin ubication can't be empty");
@@ -228,14 +277,28 @@ public class FXMLMainViewController implements Initializable {
         }
     }
 
+    /**
+     * This method shows chart view
+     * @param actionEvent
+     * @throws IOException
+     */
     public void showChart(ActionEvent actionEvent) throws IOException {
         SceneLoader.loadScene("/summercampfx/FXMLChartView.fxml",
                 (Stage) ((Node) actionEvent.getSource()).getScene().getWindow());
     }
 
+    /**
+     * This method returns the list of courses
+     * @return List of courses
+     */
     public List<Course> getCourses() {
         return courses;
     }
+
+    /**
+     * This method returns the list of pending apps
+     * @return List of pendingApps
+     */
     public List<PendingApp> getPendingApps() {
         return pendingApps;
     }

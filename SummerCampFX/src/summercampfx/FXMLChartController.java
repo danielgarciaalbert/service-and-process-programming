@@ -20,10 +20,20 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
+/**
+ * FXMLChartController is the class in charge of controlling the chart view
+ * @author Daniel García
+ */
 public class FXMLChartController implements Initializable {
     @FXML
     public PieChart chartCourses;
 
+    /**
+     * The initialize method will be called every time the class is created.
+     * It's useful for fill the chart
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(("FXMLMainView.fxml")));
@@ -50,19 +60,16 @@ public class FXMLChartController implements Initializable {
             result.put(courses.get(i).toString(), amount);
         }
 
-        /*
-        result = courses.stream().
-                collect(Collectors.groupingBy(
-                        c -> c.toString(),
-                        Collectors.summingInt(c -> c.getMonth().ordinal() + 1)
-                ));
-        */
-
         result.forEach((c, a) -> {
             chartCourses.getData().add(new PieChart.Data(c, a));
         });
     }
 
+    /**
+     * This method is used to go back to the main view
+     * @param actionEvent
+     * @throws IOException
+     */
     public void goBack(ActionEvent actionEvent) throws IOException {
         SceneLoader.loadScene("/summercampfx/FXMLMainView.fxml",
                 (Stage) ((Node) actionEvent.getSource()).getScene().getWindow());

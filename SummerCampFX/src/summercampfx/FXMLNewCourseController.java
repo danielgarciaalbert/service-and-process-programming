@@ -22,6 +22,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 
+/**
+ * FXMLNewCourseController is the class in charge of controlling the create course view
+ * @author Daniel García
+ */
 public class FXMLNewCourseController implements Initializable {
     @FXML
     public TextField txtName;
@@ -32,7 +36,12 @@ public class FXMLNewCourseController implements Initializable {
     @FXML
     public ComboBox comboWeeksDuration;
 
-
+    /**
+     * The initialize method will be called every time the class is created.
+     * It's useful for fill the combos Month and WeeksDuration
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         comboMonth.setItems(FXCollections.observableArrayList(new ArrayList<String>(Arrays.asList(
@@ -42,6 +51,10 @@ public class FXMLNewCourseController implements Initializable {
                 new ArrayList<Integer>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10))));
     }
 
+    /**
+     * This method creates a new course if all the fields contain data
+     * @param actionEvent
+     */
     public void addCourse(ActionEvent actionEvent) {
         try {
             if (txtName.getText().equals("")

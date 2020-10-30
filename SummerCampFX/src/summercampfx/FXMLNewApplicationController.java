@@ -25,6 +25,10 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
+/**
+ * FXMLNewApplicationController is the class in charge of controlling the create application view
+ * @author Daniel García
+ */
 public class FXMLNewApplicationController implements Initializable {
     @FXML
     public TextField txtName;
@@ -37,12 +41,21 @@ public class FXMLNewApplicationController implements Initializable {
     @FXML
     public Button btnAddApplication;
 
+    /**
+     * The initialize method will be called every time the class is created.
+     * It's useful for fill the combo Courses
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         comboCourse.setItems(FXCollections.observableArrayList(FileUtils.loadCourses()));
     }
 
-    // It could be added more filters, like "age between 6 and 16"
+    /**
+     * This method creates a new app if all the fields contain data
+    * @param actionEvent
+    */
     public void addApplication(ActionEvent actionEvent) {
         try {
             if (txtName.getText().equals("")

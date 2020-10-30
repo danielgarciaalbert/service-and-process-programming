@@ -6,8 +6,15 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * SummerCampFX class is the one in charge of launch the application
+ * @author Daniel García
+ */
 public class SummerCampFX extends Application {
 
+    /**
+     * This method launch de application and sets some properties
+     */
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("FXMLMainView.fxml"));
@@ -17,7 +24,9 @@ public class SummerCampFX extends Application {
         primaryStage.show();
     }
 
-
+    /**
+     * This is the main method of the application
+     */
     public static void main(String[] args) {
         launch(args);
     }
